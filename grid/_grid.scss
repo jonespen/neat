@@ -21,7 +21,7 @@ $fg-max-width: $max-width;
 }
 
 // Grid span columns
-@mixin span-columns($span: $columns of $container-columns, $display: block) {
+@mixin span-columns($span: $columns of $container-columns, $display: block, $include-gutter: false) {
 
   $columns: nth($span, 1);
   $container-columns: container-span($span);
@@ -49,11 +49,18 @@ $fg-max-width: $max-width;
   @else {
     display: block;
     float: left;
-    margin-right: flex-gutter($container-columns);
-    width: flex-grid($columns, $container-columns);
+    @if $include-gutter == true {
+      width: flex-grid($columns, $container-columns) + flex-gutter($container-columns);
+    } 
+
+    @else {
+      margin-right: flex-gutter($container-columns);
+      width: flex-grid($columns, $container-columns);
+    }
 
     &:last-child {
       margin-right: 0;
+      width: flex-grid($columns, $container-columns);
     }
   }
 }
